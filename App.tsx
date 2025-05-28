@@ -3,61 +3,59 @@
 // Transformador de Texto
 
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TextInput, Button, Image} from 'react-native';
-import {useState} from 'react';
+import { useState } from 'react';
+import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput } from 'react-native';
 
 export default function App() {
-  const logo = require('./assets/logo.png');
-  
+  const logo = require('./assets/logo.webp');
+
   const [texto, setTexto] = useState('');
+  const [resultado, setResultado] = useState('');
 
-  function maiusculo(texto: string){
-    let maiusc = '';
+  function maiusculo(){
+    let maiusc = texto.toUpperCase();
+    setResultado(maiusc);
+  };
+  function minusculo(){
+    let minusc = texto.toLowerCase();
+    setResultado(minusc);
+  };  
+  function inverter(){
+    let inverte = texto.split('').reverse().join('');
+    setResultado(inverte);
+  };
+  function contar(){
+    let conta = texto.length;
+    let result = conta.toString();
 
-    maiusc = texto.toUpperCase();
-
-    setTexto(maiusc);
-    return({setTexto});
-  }
-
-  function minusculo(texto: string){
-    let minusc = '';
-    
-    minusc = texto.toLowerCase();
-
-    setTexto(minusc);
-    return({setTexto});
-  }
-
-  function inverte(texto: string){
-    let inverter = '';
-    
-    inverter = texto.split('').reverse().join('');
-
-    setTexto(inverter);
-    return({setTexto});
-  }
-
-  function conta(texto: string){
-    let contar = 0;
-    
-    contar = texto.length;
-
-    setTexto(contar);
-    return({setTexto});
-  }
+    setResultado(result);
+  };
 
   return (
     <View style={styles.container}>
+      <View style={styles.container}>
       <Image source={logo} style={styles.logo}></Image>
       <Text style={styles.text}>Transformador de Texto</Text>
-      <Text style={styles.subtext}>Digite algo: <TextInput style={styles.input} onChangeText={(valor) => setTexto(valor)} value={texto}></TextInput></Text>
-      <Button color='#efb7cd' onPress={() => maiusculo(texto)} title='MAIÚSCULO' ></Button>
-      <Button color='#eb84b8' onPress={() => minusculo(texto)} title='minúsculo'></Button>
-      <Button color='#add27e' onPress={() => inverte(texto)} title='Inverter'></Button>
-      <Button color='#557927' onPress={() => conta(texto)} title='Contar letras'></Button>
-      <Text style={styles.subtext}>{texto}</Text>
-      <StatusBar style="auto" />
+      <Text style={styles.subtext}>Digite algo: <TextInput style={styles.input} placeholder='Digite seu Texto' onChangeText={setTexto} value={texto}></TextInput></Text>
+        <View style={styles.container2}>
+          <TouchableOpacity style={styles.button1} onPress={(maiusculo)}>
+            <Text style={styles.buttonText}>MAÍUSCULA</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button2} onPress={(minusculo)}>
+            <Text style={styles.buttonText}>minúscula</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.container2}>
+        <TouchableOpacity style={styles.button3} onPress={(inverter)}>
+            <Text style={styles.buttonText}>Inverter</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button4} onPress={(contar)}>
+            <Text style={styles.buttonText}>Contar letras</Text>
+          </TouchableOpacity>
+        </View>
+        <Text style={styles.subtext}>{resultado}</Text>
+        <StatusBar style="auto" />
+      </View>
     </View>
   );
 }
@@ -65,9 +63,58 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    backgroundColor: '#137a7f',
     alignItems: 'center',
-    backgroundColor: '#000'
+    justifyContent: 'center',
+  },
+  container2: {
+    flexDirection: 'row',
+    margin: 5,
+  },
+  button1: {
+    backgroundColor: '#efb7cd',
+    paddingVertical: 12,
+    paddingHorizontal: 15,
+    borderWidth: 3,
+    borderColor: '#eb84b8',
+    borderRadius: 10,
+    alignItems: 'center',
+    margin: 10,
+  },
+  button2: {
+    backgroundColor: '#eb84b8',
+    paddingVertical: 12,
+    paddingHorizontal: 15,
+    borderWidth: 3,
+    borderColor: '#efb7cd',
+    borderRadius: 10,
+    alignItems: 'center',
+    margin: 10,
+  },
+  button3: {
+    backgroundColor: '#add27e',
+    paddingVertical: 12,
+    paddingHorizontal: 15,
+    borderWidth: 3,
+    borderColor: '#557927',
+    borderRadius: 10,
+    alignItems: 'center',
+    margin: 10,
+  },
+  button4: {
+    backgroundColor: '#557927',
+    paddingVertical: 12,
+    paddingHorizontal: 15,
+    borderWidth: 3,
+    borderColor: '#add27e',
+    borderRadius: 10,
+    alignItems: 'center',
+    margin: 10,
+  },
+  buttonText: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
   text: {
     fontSize: 35,
@@ -87,7 +134,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
   },
-  input:{
+  input: {
     fontSize: 20,
     fontWeight: 'bold',
     color: 'white',
